@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas-bg: #ffffff;
+    --canvas-grid: #e5e5e5;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .canvas-container {
+    cursor: grab;
+  }
+
+  .canvas-container:active {
+    cursor: grabbing;
+  }
+
+  .canvas-container.panning {
+    cursor: grabbing;
+  }
+
+  .tool-btn {
+    @apply p-2 rounded-lg transition-all duration-150 hover:bg-gray-100 active:bg-gray-200;
+  }
+
+  .tool-btn.active {
+    @apply bg-primary-100 text-primary-600;
+  }
+
+  .context-menu {
+    @apply bg-white rounded-lg shadow-xl border border-gray-200 py-1 min-w-[200px] z-50;
+  }
+
+  .context-menu-item {
+    @apply px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer flex items-center gap-2;
+  }
+
+  .context-menu-separator {
+    @apply h-px bg-gray-200 my-1 mx-2;
+  }
+
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  /* Text selection */
+  ::selection {
+    background: rgba(99, 102, 241, 0.2);
+  }
+}
+
+@layer utilities {
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
