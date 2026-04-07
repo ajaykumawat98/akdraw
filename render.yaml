@@ -27,8 +27,9 @@ services:
     runtime: node
     plan: free
     autoDeploy: true
-    buildCommand: cd backend && npm install && npm run build
-    startCommand: cd backend && npm run migrate && npm start
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run migrate && npm start
     envVars:
       - key: NODE_ENV
         value: production
