@@ -1,0 +1,57 @@
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: akdraw-postgres
+    runtime: docker
+    plan: free
+    autoDeploy: false
+    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile.postgres
+    envVars:
+      - key: POSTGRES_USER
+        value: akdraw
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+      - key: POSTGRES_DB
+        value: akdraw
+      - key: PGDATA
+        value: /var/lib/postgresql/data/pgdata
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 1
+
+  # Backend API
+  - type: web
+    name: akdraw-backend
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm run migrate && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: akdraw-postgres
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: DB_USER
+        value: akdraw
+      - key: DB_PASSWORD
+        fromService:
+          type: pserv
+          name: akdraw-postgres
+          envVarKey: POSTGRES_PASSWORD
+      - key: DB_NAME
+        value: akdraw
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://akdraw.vercel.app
+    healthCheckPath: /health

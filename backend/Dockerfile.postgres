@@ -1,0 +1,7 @@
+FROM postgres:16-alpine
+
+ENV POSTGRES_USER=akdraw
+ENV POSTGRES_DB=akdraw
+ENV PGDATA=/var/lib/postgresql/data/pgdata
+
+EXPOSE 5432
