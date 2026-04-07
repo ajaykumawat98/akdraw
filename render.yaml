@@ -16,13 +16,8 @@ services:
         value: akdraw
       - key: PGDATA
         value: /var/lib/postgresql/data/pgdata
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 1
-
-  # Backend API
-  - type: web
+    
+    type: web
     name: akdraw-backend
     runtime: node
     plan: free
